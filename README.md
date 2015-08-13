@@ -43,8 +43,6 @@ This is a basic Sudoku Solver based on Python and developed with Flask.
 4. To test your application, run the manage.py file: `python manage.py runserver`, and open your web browser to
 `localhost:5000`.
 
-![Home Page](https://dl.dropboxusercontent.com/u/30620269/insightfl.png)
-
 That's it! You are ready to start building your web application.
 
 **Note**: *`manage.py` uses the builtin server for development. You should not use the builtin development server
