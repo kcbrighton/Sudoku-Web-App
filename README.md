@@ -1,19 +1,10 @@
-# InsightFL
-A basic template for building minimal web applications.
+# Sudoku Web Application
+A basic Sudoku Solver
 
 ### Introduction
-InsightFL is a basic [Flask](http://flask.pocoo.org/) template created specifically to help budding
-data scientists in the [Insight Data Science](http://insightdatascience.com/) program. It comes with a very basic 
-[Bootstrap](http://getbootstrap.com/) template to help Insight fellows get started building their web application.
-If you are new to Flask and/or web development, take a look at the
-[resources](https://github.com/stormpython/insightfl#resources) below.
+This is a basic Sudoku Solver based on Python and developed with Flask.
 
 
-
-To get started building your web app, follow the instructions below to setup your development environment.
-
-**Note**: This assumes you are comfortable with the Terminal and have some familiarity with Unix/Linux commands. If this
-is not the case, take a look at this [guide](http://www.ee.surrey.ac.uk/Teaching/Unix/).
 
 ### Getting Started <a name="getting-started"></a>
 #### System Requirements <a name="system-requirements"></a>
