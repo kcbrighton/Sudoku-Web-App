@@ -1,0 +1,121 @@
+import cv2
+import numpy as np
+import os
+from scipy import misc
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+import SudokuProcessingFunctions as spf
+
+import matplotlib.pyplot as plt
+import cPickle as pickle
+
+
+neigh = pickle.load(open("app/sudoku_knn.p", "rb"))
+
+# vectorize sharpen and normalization functions
+v_sharpen_image = np.vectorize(spf.sharpen_image)
+v_normalize_image = np.vectorize(spf.normalize_image)
+
+
+
+def extract_cells(fname):
+
+    img = cv2.imread(fname,0)
+
+    cells = np.zeros(shape = (9,9), dtype = int)
+    
+    # turn image b/w and trim the outer edges
+    sharp_img = v_sharpen_image(img, img.max())
+    # sharp_img = spf.trim_outer_edge(sharp_img)
+
+    
+    # compute the indeces of the vertical and horizontal grid
+    cols = spf.col_indeces(sharp_img)
+    rows = spf.row_indeces(sharp_img)
+    
+    # image corners rise/tilt differences of edges
+    corners, diffs = spf.edge_info(sharp_img)
+
+    left_diff = diffs[0]
+    top_diff = diffs[1]
+    right_diff = diffs[2]
+    bot_diff = diffs[3]
+    
+    for col in range(9):
+        for row in range(9):
+
+            h_slope = int((top_diff*(8-row) + bot_diff*(row))/8.)
+            v_slope = int((left_diff*(8-col) + right_diff*(col))/8.)
+            
+            top_row = rows[row] + (h_slope*col)/10
+            bot_row = rows[row+1] + (h_slope*(col+1))/10
+
+            left_col = cols[col] + (v_slope*row)/10
+            right_col = cols[col+1] + (v_slope*(row+1))/10
+
+            window = spf.get_cell(sharp_img[top_row:bot_row, left_col:right_col])
+
+            if window != None:
+                window = misc.imresize(window, (12,12)).flatten()
+                window = v_normalize_image(window)
+                cells[row, col] = neigh.predict(window)
+
+
+
+
+
+    return cells
+
+
+def find_empty_cell(sudoku_grid):
+    # return (True, row, col)
+    for i in range(9):
+        row = i
+        for j in range(9):
+            col = j
+            if sudoku_grid[i,j]==0: 
+                return True, row, col
+    return False,-1,-1
+
+
+def no_conflict(sudoku_grid, row,col, value):
+    
+    notincol = False
+    notinrow = False
+    notinbox = False
+    
+    if value not in sudoku_grid[row,:]:
+        notincol = True
+
+    if value not in sudoku_grid[:,col]:
+        notinrow = True
+    
+    start_row = row/3
+    start_col = col/3
+    
+    if value not in sudoku_grid[start_row*3: start_row*3 + 3, 
+                                start_col*3: start_col*3 + 3]:
+        notinbox = True
+
+        
+    return (notincol and notinrow and notinbox)
+
+
+
+def solve_sudoku(sudoku_grid):
+
+    TF,row,col = find_empty_cell(sudoku_grid)
+
+    if TF == False: return True, sudoku_grid
+
+    for n in range(1,10):
+        if no_conflict(sudoku_grid, row, col, n):
+            sudoku_grid[row,col] = n
+            
+            if( solve_sudoku(sudoku_grid)[0] ): 
+                return True, sudoku_grid
+            
+            sudoku_grid[row, col] = 0
+    
+    
+    return False, sudoku_grid

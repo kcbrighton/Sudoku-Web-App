@@ -1,9 +1,10 @@
 Flask==0.10.1
-Flask-Script==2.0.5
+itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23
+numpy==1.9.2
+Pillow==2.9.0
+scikit-learn==0.16.1
+scipy==0.16.0
 Werkzeug==0.9.6
-gunicorn==18.0
-itsdangerous==0.24
-simplejson==3.5.2
-wsgiref==0.1.2
+Flask-Script==2.0.5

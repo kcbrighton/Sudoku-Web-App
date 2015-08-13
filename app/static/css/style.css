@@ -26,6 +26,13 @@ body {
   background-color: #f5f5f5;
 }
 
+
+
+.flash {
+  background-color: #FBB0B0;
+  /*padding: 10px;*/
+}
+
 /* Genericon social icon styles
 ---------------------------------------------------- */
 .genericon-github:before,
