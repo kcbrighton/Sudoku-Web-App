@@ -8,6 +8,8 @@ data scientists in the [Insight Data Science](http://insightdatascience.com/) pr
 If you are new to Flask and/or web development, take a look at the
 [resources](https://github.com/stormpython/insightfl#resources) below.
 
+
+
 To get started building your web app, follow the instructions below to setup your development environment.
 
 **Note**: This assumes you are comfortable with the Terminal and have some familiarity with Unix/Linux commands. If this
