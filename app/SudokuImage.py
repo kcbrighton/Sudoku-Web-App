@@ -66,9 +66,12 @@ class SudokuImage():
             curr_row_index +=1
             
         Left_indeces.append(col_length + corners[0][0])
-    
-        self.rows = Left_indeces
-
+        
+        
+        if len(Left_indeces)==10:
+            self.rows = Left_indeces
+        else:
+            self.rows = False
 
     def set_columns(self):
         
@@ -105,9 +108,12 @@ class SudokuImage():
             curr_col_index +=1
             
         Top_indeces.append(row_length + corners[0][1]) 
-        
-        
-        self.cols = Top_indeces
+
+        if len(Top_indeces)==10:
+            self.cols = Top_indeces
+        else:
+            self.cols = False
+
 
     #--------------------------------------------------#
     #            Find Corners and Slant                #
@@ -234,6 +240,13 @@ class SudokuImage():
     #--------------------------------------------------#
     def extract_cells(self):
         
+
+        if self.rows == False or self.cols == False:
+
+            self.filled_cells = False
+            return 
+       
+
         cells = []
         
         diffs = self.slants

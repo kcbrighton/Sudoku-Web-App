@@ -1,3 +1,6 @@
 .DS_Store
 venv/
 *.pyc
+*~
+
+app/static/uploaded_sudokus/*
